@@ -1,6 +1,6 @@
-describe("Login Form", function () {
+describe("cs262 assignment2", function () {
   const EC = protractor.ExpectedConditions;
-  it("should fill in the username and password fields and click the login button", async function () {
+  it("test 1", async function () {
     await browser.get("http://twms.twss.co.th:8080/twms-dashboard/#/dashboard");
     await browser.driver.manage().window().maximize();
     await browser.waitForAngular();
@@ -17,7 +17,7 @@ describe("Login Form", function () {
     var loginbtn = element(by.tagName("button"));
     await browser.wait(EC.visibilityOf(loginbtn), 10000);
     await loginbtn.click();
-    //1.1 click Outbound
+    //1.1 click outbound
     var outbound = element(by.id("sidebar-menu"));
     await browser.wait(EC.visibilityOf(outbound), 10000);
     await outbound.click();
@@ -69,7 +69,7 @@ describe("Login Form", function () {
     var document_date = element(by.id("i_document_date"));
     await browser.wait(EC.visibilityOf(document_date), 10000);
     await document_date.sendKeys("01/04/2023");
-    //4.g
+    //4.g                  
     //4.h
     //4.i no code
     //5
@@ -97,9 +97,10 @@ describe("Login Form", function () {
     await browser.wait(EC.elementToBeClickable(saveconfirm), 10000);
     await saveconfirm.click();
     //8
-    await browser.switchTo().alert.accept();
+    await browser.wait(EC.alertIsPresent(), 5000);
+    await browser.switchTo().alert().accept(); // or .dismiss();
+    await browser.refresh();
     //9 logout
-    await browser.sleep(10000);
     var userprofile = element(by.css(".user-profile.dropdown-toggle"));
     await browser.wait(EC.elementToBeClickable(userprofile), 10000);
     await userprofile.click();
@@ -108,5 +109,6 @@ describe("Login Form", function () {
     var logoutbtn = dropdownMenu.all(by.css("li")).last();
     await browser.wait(EC.elementToBeClickable(logoutbtn), 10000);
     await logoutbtn.click();
+    await browser.sleep(10000);
   });
 });
