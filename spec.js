@@ -1,132 +1,112 @@
 describe("Login Form", function () {
   const EC = protractor.ExpectedConditions;
-  beforeEach(async () => {
+  it("should fill in the username and password fields and click the login button", async function () {
     await browser.get("http://twms.twss.co.th:8080/twms-dashboard/#/dashboard");
     await browser.driver.manage().window().maximize();
     await browser.waitForAngular();
-  });
-  it("should fill in the username and password fields and click the login button", async function () {
     //login
-    await browser.wait(EC.visibilityOf(element(by.id("i_username"))), 10000);
-    await element(by.id("i_username")).sendKeys("consult");
-    await browser.wait(EC.visibilityOf(element(by.id("i_password"))), 10000);
-    await element(by.id("i_password")).sendKeys("consult");
-    await browser.wait(EC.visibilityOf(element(by.tagName("button"))), 10000);
-    await element(by.tagName("button")).click();
+    //input username
+    var username = element(by.id("i_username"));
+    await browser.wait(EC.visibilityOf(username), 10000);
+    await username.sendKeys("consult");
+    //input password
+    var password = element(by.id("i_password"));
+    await browser.wait(EC.visibilityOf(password), 10000);
+    await password.sendKeys("consult");
+    // click login button
+    var loginbtn = element(by.tagName("button"));
+    await browser.wait(EC.visibilityOf(loginbtn), 10000);
+    await loginbtn.click();
     //1.1 click Outbound
-    await browser.wait(EC.visibilityOf(element(by.id("sidebar-menu"))), 10000);
-    await element(by.id("sidebar-menu")).click();
-    //1.2 click salesOrder
-    await browser.wait(
-      EC.elementToBeClickable(
-        element.all(by.cssContainingText("a", "Sales Orders")).first()
-      ),
-      10000
-    );
-    await element
+    var outbound = element(by.id("sidebar-menu"));
+    await browser.wait(EC.visibilityOf(outbound), 10000);
+    await outbound.click();
+    //1.2 click Sales Orders
+    var salesOrder = element
       .all(by.cssContainingText("a", "Sales Orders"))
-      .first()
-      .click();
+      .first();
+    await browser.wait(EC.elementToBeClickable(salesOrder), 10000);
+    await salesOrder.click();
     //2.Create SO and 3.
-    await browser.wait(
-      EC.elementToBeClickable(element(by.id("i_create_item"))),
-      10000
-    );
-    await element(by.id("i_create_item")).click();
+    var saleorderbtn = element(by.id("i_create_item"));
+    await browser.wait(EC.elementToBeClickable(saleorderbtn), 10000);
+    await saleorderbtn.click();
     //4.a
-    await browser.wait(
-      EC.visibilityOf(
-        element(
-          by.xpath(
-            '//*[@id="tabstrip-2"]/form/div[3]/div[1]/div/span[1]/span[1]'
-          )
-        )
-      ),
-      10000
-    );
-    await element(
+    var clientslect = element(
       by.xpath('//*[@id="tabstrip-2"]/form/div[3]/div[1]/div/span[1]/span[1]')
-    ).click();
-    await browser.wait(
-      EC.visibilityOf(element(by.xpath('//*[@id="i_client_listbox"]/li[2]'))),
-      10000
     );
-    await element(by.xpath('//*[@id="i_client_listbox"]/li[2]')).click();
+    await browser.wait(EC.visibilityOf(clientslect), 10000);
+    await clientslect.click();
+    var clientoptioon = element(by.xpath('//*[@id="i_client_listbox"]/li[2]'));
+    await browser.wait(EC.visibilityOf(clientoptioon), 10000);
+    await clientoptioon.click();
     //4.b
-    await browser.wait(
-      EC.visibilityOf(element(by.id("i_customer_insert"))),
-      10000
+    var customerinput = element(by.id("i_customer_insert"));
+    await browser.wait(EC.visibilityOf(customerinput), 10000);
+    await customerinput.sendKeys("10009670");
+    var customeroption = element(
+      by.xpath('//*[@id="i_customer_insert_listbox"]/li')
     );
-    await element(by.id("i_customer_insert")).sendKeys("10009670");
-    await browser.wait(
-      EC.visibilityOf(
-        element(by.xpath('//*[@id="i_customer_insert_listbox"]/li'))
-      ),
-      10000
-    );
-    await element(by.xpath('//*[@id="i_customer_insert_listbox"]/li')).click();
+    await browser.wait(EC.visibilityOf(customeroption), 10000);
+    await customeroption.click();
     //4.c
-    await browser.wait(
-      EC.visibilityOf(
-        element(
-          by.xpath('//*[@id="tabstrip-2"]/form/div[5]/div[1]/div/span[1]/span')
-        )
-      ),
-      10000
-    );
-    await element(
+    var staselect = element(
       by.xpath('//*[@id="tabstrip-2"]/form/div[5]/div[1]/div/span[1]/span')
-    ).click();
-    await browser.wait(
-      EC.visibilityOf(
-        element(
-          by.xpath('//*[@id="i_shipto_address_insert_listbox"]/li[2]/span')
-        )
-      ),
-      10000
     );
-    await element(
+    await browser.wait(EC.visibilityOf(staselect), 10000);
+    await staselect.click();
+    var staoption = element(
       by.xpath('//*[@id="i_shipto_address_insert_listbox"]/li[2]/span')
-    ).click();
+    );
+    await browser.wait(EC.visibilityOf(staoption), 10000);
+    await staoption.click();
     //4.d
     //4.e
-    await browser.wait(EC.visibilityOf(element(by.id("i_request_date_insert"))), 10000);
-    await element(by.id("i_request_date_insert")).sendKeys("04/04/2023");
+    var request_date_insert = element(by.id("i_request_date_insert"));
+    await browser.wait(EC.visibilityOf(request_date_insert), 10000);
+    await request_date_insert.sendKeys("04/04/2023");
     //4.f
-    await browser.wait(EC.visibilityOf(element(by.id("i_document_date"))), 10000);
-    await element(by.id("i_document_date")).sendKeys("01/04/2023");
+    var document_date = element(by.id("i_document_date"));
+    await browser.wait(EC.visibilityOf(document_date), 10000);
+    await document_date.sendKeys("01/04/2023");
     //4.g
-    
     //4.h
-    //4.i
+    //4.i no code
+    //5
+    var createLineItemButton = element(by.id("i_create_line_item"));
+    await browser.wait(EC.elementToBeClickable(createLineItemButton), 10000);
+    await createLineItemButton.click();
+    //productcode
     //5.a
+    var productcode = element(by.name("productcode"));
+    await browser.wait(EC.elementToBeClickable(productcode), 10000);
+    await productcode.sendKeys("1000070");
+    var productoption = element(
+      by.xpath("/html/body/div[19]/div/div[2]/ul/li/span")
+    );
+    await browser.wait(EC.elementToBeClickable(productoption), 10000);
+    await productoption.click();
     //5.b
     //5.c
     //6
-    /*var createLineItemButton = element(by.id("i_create_line_item"));
-    await browser.wait(EC.elementToBeClickable(createLineItemButton), 10000);
-    await createLineItemButton.click();*/
+    var updatebtn = element(by.cssContainingText("a", "Update"));
+    await browser.wait(EC.elementToBeClickable(updatebtn), 10000);
+    await updatebtn.click();
     //7
+    var saveconfirm = element(by.cssContainingText("button", "Save&Confirm"));
+    await browser.wait(EC.elementToBeClickable(saveconfirm), 10000);
+    await saveconfirm.click();
     //8
-    /*var updateButton = element(
-      by.css(".k-button-icontext.k-primary.k-grid-update")
-    );
-    await browser.wait(EC.elementToBeClickable(updateButton), 10000);
-    await updateButton.click();*/
+    await browser.switchTo().alert.accept();
     //9 logout
     await browser.sleep(10000);
-    await browser.wait(
-      EC.elementToBeClickable(element(by.css(".user-profile.dropdown-toggle"))),
-      10000
-    );
-    await element(by.css(".user-profile.dropdown-toggle")).click();
+    var userprofile = element(by.css(".user-profile.dropdown-toggle"));
+    await browser.wait(EC.elementToBeClickable(userprofile), 10000);
+    await userprofile.click();
     await browser.sleep(1000);
     var dropdownMenu = element(by.css(".dropdown-menu.dropdown-usermenu"));
-    await browser.wait(
-      EC.elementToBeClickable(dropdownMenu.all(by.css("li")).last()),
-      10000
-    );
-    await dropdownMenu.all(by.css("li")).last().click();
+    var logoutbtn = dropdownMenu.all(by.css("li")).last();
+    await browser.wait(EC.elementToBeClickable(logoutbtn), 10000);
+    await logoutbtn.click();
   });
 });
-
