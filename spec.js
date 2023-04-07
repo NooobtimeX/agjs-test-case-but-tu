@@ -1,6 +1,6 @@
 describe("cs262 assignment2", function () {
-  const EC = protractor.ExpectedConditions;
   it("test 1", async function () {
+    const EC = protractor.ExpectedConditions;
     await browser.get("http://twms.twss.co.th:8080/twms-dashboard/#/dashboard");
     await browser.driver.manage().window().maximize();
     await browser.waitForAngular();
@@ -17,7 +17,7 @@ describe("cs262 assignment2", function () {
     var loginbtn = element(by.tagName("button"));
     await browser.wait(EC.visibilityOf(loginbtn), 10000);
     await loginbtn.click();
-    //1.1 click outbound
+    //1.1 click Outbound
     var outbound = element(by.id("sidebar-menu"));
     await browser.wait(EC.visibilityOf(outbound), 10000);
     await outbound.click();
@@ -27,10 +27,13 @@ describe("cs262 assignment2", function () {
       .first();
     await browser.wait(EC.elementToBeClickable(salesOrder), 10000);
     await salesOrder.click();
-    //2.Create SO and 3.
+    //2.click SO and 3.
     var saleorderbtn = element(by.id("i_create_item"));
     await browser.wait(EC.elementToBeClickable(saleorderbtn), 10000);
     await saleorderbtn.click();
+
+    //test 2.1
+    expect(element(by.id("i_customer_insert")).disabled).toEqual(true);
     //4.a
     var clientslect = element(
       by.xpath('//*[@id="tabstrip-2"]/form/div[3]/div[1]/div/span[1]/span[1]')
@@ -40,6 +43,8 @@ describe("cs262 assignment2", function () {
     var clientoptioon = element(by.xpath('//*[@id="i_client_listbox"]/li[2]'));
     await browser.wait(EC.visibilityOf(clientoptioon), 10000);
     await clientoptioon.click();
+    //test 2.2
+    expect(element(by.id("i_customer_insert")).disabled).toEqual(false);
     //4.b
     var customerinput = element(by.id("i_customer_insert"));
     await browser.wait(EC.visibilityOf(customerinput), 10000);
@@ -69,9 +74,10 @@ describe("cs262 assignment2", function () {
     var document_date = element(by.id("i_document_date"));
     await browser.wait(EC.visibilityOf(document_date), 10000);
     await document_date.sendKeys("01/04/2023");
-    //4.g                  
-    //4.h
-    //4.i no code
+    //4.g h i Ref Doc No
+    var document_date = element(by.id("i_ref_doc_insert"));
+    await browser.wait(EC.visibilityOf(document_date), 10000);
+    await document_date.sendKeys("22222");
     //5
     var createLineItemButton = element(by.id("i_create_line_item"));
     await browser.wait(EC.elementToBeClickable(createLineItemButton), 10000);
@@ -87,7 +93,22 @@ describe("cs262 assignment2", function () {
     await browser.wait(EC.elementToBeClickable(productoption), 10000);
     await productoption.click();
     //5.b
+    var qty = element(
+      by.xpath(
+        '//*[@id="i_lineitem_grid"]/table/tbody/tr/td[4]/span/span/input[1]'
+      )
+    );
+    await browser.wait(EC.visibilityOf(qty), 10000);
+    await qty.sendKeys(5);
     //5.c
+    var seselect = element(
+      by.xpath('//*[@id="i_lineitem_grid"]/table/tbody/tr/td[5]/span')
+    );
+    await browser.wait(EC.visibilityOf(seselect), 10000);
+    await seselect.click();
+    var seoption = element(by.xpath("/html/body/div[20]/div/div[2]/ul"));
+    await browser.wait(EC.visibilityOf(seoption), 10000);
+    await seoption.click();
     //6
     var updatebtn = element(by.cssContainingText("a", "Update"));
     await browser.wait(EC.elementToBeClickable(updatebtn), 10000);
@@ -98,7 +119,7 @@ describe("cs262 assignment2", function () {
     await saveconfirm.click();
     //8
     await browser.wait(EC.alertIsPresent(), 5000);
-    await browser.switchTo().alert().accept(); // or .dismiss();
+    await browser.switchTo().alert().accept();
     await browser.refresh();
     //9 logout
     var userprofile = element(by.css(".user-profile.dropdown-toggle"));
