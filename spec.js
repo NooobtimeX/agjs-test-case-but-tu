@@ -25,11 +25,11 @@ describe("cs262 assignment2", function () {
     var salesOrder = element
       .all(by.cssContainingText("a", "Sales Orders"))
       .first();
-    await browser.wait(EC.elementToBeClickable(salesOrder), 10000);
+    await browser.wait(EC.visibilityOf(salesOrder), 10000);
     await salesOrder.click();
     //2.click SO and 3.
     var saleorderbtn = element(by.id("i_create_item"));
-    await browser.wait(EC.elementToBeClickable(saleorderbtn), 10000);
+    await browser.wait(EC.visibilityOf(saleorderbtn), 10000);
     await saleorderbtn.click();
     //test 2.1
     expect(element(by.id("i_customer_insert")).isEnabled()).toBe(false);
@@ -71,7 +71,6 @@ describe("cs262 assignment2", function () {
         by.xpath('//*[@id="tabstrip-2"]/form/div[5]/div[1]/div/span[1]')
       ).getAttribute("aria-disabled")
     ).toBe("false");
-
     //test 4.2
     expect(
       await element(
@@ -99,22 +98,23 @@ describe("cs262 assignment2", function () {
     await browser.wait(EC.visibilityOf(document_date), 10000);
     await document_date.sendKeys("01/04/2023");
     //4.g h i Ref Doc No
-    var document_date = element(by.id("i_ref_doc_insert"));
-    await browser.wait(EC.visibilityOf(document_date), 10000);
-    await document_date.sendKeys("1");
+    var refNO = 1214334214;
+    var ref = element(by.id("i_ref_doc_insert"));
+    await browser.wait(EC.visibilityOf(ref), 10000);
+    await ref.sendKeys(refNO);
     //5
     var createLineItemButton = element(by.id("i_create_line_item"));
-    await browser.wait(EC.elementToBeClickable(createLineItemButton), 10000);
+    await browser.wait(EC.visibilityOf(createLineItemButton), 10000);
     await createLineItemButton.click();
     //productcode
     //5.a
     var productcode = element(by.name("productcode"));
-    await browser.wait(EC.elementToBeClickable(productcode), 10000);
+    await browser.wait(EC.visibilityOf(productcode), 10000);
     await productcode.sendKeys("1000070");
     var productoption = element(
       by.xpath("/html/body/div[19]/div/div[2]/ul/li/span")
     );
-    await browser.wait(EC.elementToBeClickable(productoption), 10000);
+    await browser.wait(EC.visibilityOf(productoption), 10000);
     await productoption.click();
     //5.b
     var qty = element(
@@ -135,30 +135,45 @@ describe("cs262 assignment2", function () {
     await seoption.click();
     //6
     var updatebtn = element(by.cssContainingText("a", "Update"));
-    await browser.wait(EC.elementToBeClickable(updatebtn), 10000);
+    await browser.wait(EC.visibilityOf(updatebtn), 10000);
     await updatebtn.click();
     //7
     var saveconfirm = element(by.cssContainingText("button", "Save&Confirm"));
-    await browser.wait(EC.elementToBeClickable(saveconfirm), 10000);
+    await browser.wait(EC.visibilityOf(saveconfirm), 10000);
     await saveconfirm.click();
     //8
     await browser.wait(EC.alertIsPresent(), 5000);
     await browser.switchTo().alert().accept();
     await browser.refresh();
     //testcase 5
+    var i_ref_doc_number = element(by.id("i_ref_doc_number"));
+    await browser.wait(EC.visibilityOf(i_ref_doc_number), 10000);
+    await i_ref_doc_number.sendKeys(refNO);
+    var searchbtn = element(
+      by.xpath('//*[@id="tabstrip-1"]/form/div[5]/button')
+    );
+    await browser.wait(EC.visibilityOf(searchbtn), 10000);
+    await searchbtn.click();
+    var howmany = element(by.xpath('//*[@id="itemGridOptions"]/div[4]/span'));
+    await browser.wait(EC.visibilityOf(howmany), 10000);
+    expect(howmany.getText()).toEqual("1 - 1 of 1 items");
     //testcase 6
-    //testcase 7
+    var s_no_bpartner = element(by.id("s_no_bpartner"));
+    await browser.wait(EC.visibilityOf(s_no_bpartner), 10000);
+    await s_no_bpartner.click();
+    await searchbtn.click();
+    expect(howmany.getText()).toEqual("No items to display");
+    //testcase 7.1 7.2
+    expect(element(by.id("shiptosearch")).isEnabled()).toBe(true);
+    expect(s_no_bpartner.isEnabled()).toBe(true);
     //testcase 8
     //9 logout
     var userprofile = element(by.css(".user-profile.dropdown-toggle"));
-    await browser.wait(EC.elementToBeClickable(userprofile), 10000);
+    await browser.wait(EC.visibilityOf(userprofile), 10000);
     await userprofile.click();
-    await browser.sleep(1000);
     var dropdownMenu = element(by.css(".dropdown-menu.dropdown-usermenu"));
     var logoutbtn = dropdownMenu.all(by.css("li")).last();
-    await browser.wait(EC.elementToBeClickable(logoutbtn), 10000);
+    await browser.wait(EC.visibilityOf(logoutbtn), 10000);
     await logoutbtn.click();
-    await browser.sleep(10000);
   });
 });
-
