@@ -31,9 +31,8 @@ describe("cs262 assignment2", function () {
     var saleorderbtn = element(by.id("i_create_item"));
     await browser.wait(EC.elementToBeClickable(saleorderbtn), 10000);
     await saleorderbtn.click();
-
     //test 2.1
-    expect(element(by.id("i_customer_insert")).disabled).toEqual(true);
+    expect(element(by.id("i_customer_insert")).isEnabled()).toBe(false);
     //4.a
     var clientslect = element(
       by.xpath('//*[@id="tabstrip-2"]/form/div[3]/div[1]/div/span[1]/span[1]')
@@ -44,7 +43,19 @@ describe("cs262 assignment2", function () {
     await browser.wait(EC.visibilityOf(clientoptioon), 10000);
     await clientoptioon.click();
     //test 2.2
-    expect(element(by.id("i_customer_insert")).disabled).toEqual(false);
+    expect(element(by.id("i_customer_insert")).isEnabled()).toBe(true);
+    //test 3.1
+    expect(
+      await element(
+        by.xpath('//*[@id="tabstrip-2"]/form/div[5]/div[1]/div/span[1]')
+      ).getAttribute("aria-disabled")
+    ).toBe("true");
+    //test 4.1
+    expect(
+      await element(
+        by.xpath('//*[@id="tabstrip-2"]/form/div[3]/div[2]/div/span')
+      ).getAttribute("aria-disabled")
+    ).toBe("true");
     //4.b
     var customerinput = element(by.id("i_customer_insert"));
     await browser.wait(EC.visibilityOf(customerinput), 10000);
@@ -54,6 +65,19 @@ describe("cs262 assignment2", function () {
     );
     await browser.wait(EC.visibilityOf(customeroption), 10000);
     await customeroption.click();
+    //test 3.2
+    expect(
+      await element(
+        by.xpath('//*[@id="tabstrip-2"]/form/div[5]/div[1]/div/span[1]')
+      ).getAttribute("aria-disabled")
+    ).toBe("false");
+
+    //test 4.2
+    expect(
+      await element(
+        by.xpath('//*[@id="tabstrip-2"]/form/div[3]/div[2]/div/span')
+      ).getAttribute("aria-disabled")
+    ).toBe("false");
     //4.c
     var staselect = element(
       by.xpath('//*[@id="tabstrip-2"]/form/div[5]/div[1]/div/span[1]/span')
@@ -77,7 +101,7 @@ describe("cs262 assignment2", function () {
     //4.g h i Ref Doc No
     var document_date = element(by.id("i_ref_doc_insert"));
     await browser.wait(EC.visibilityOf(document_date), 10000);
-    await document_date.sendKeys("22222");
+    await document_date.sendKeys("1");
     //5
     var createLineItemButton = element(by.id("i_create_line_item"));
     await browser.wait(EC.elementToBeClickable(createLineItemButton), 10000);
@@ -121,6 +145,10 @@ describe("cs262 assignment2", function () {
     await browser.wait(EC.alertIsPresent(), 5000);
     await browser.switchTo().alert().accept();
     await browser.refresh();
+    //testcase 5
+    //testcase 6
+    //testcase 7
+    //testcase 8
     //9 logout
     var userprofile = element(by.css(".user-profile.dropdown-toggle"));
     await browser.wait(EC.elementToBeClickable(userprofile), 10000);
@@ -133,3 +161,4 @@ describe("cs262 assignment2", function () {
     await browser.sleep(10000);
   });
 });
+
