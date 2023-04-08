@@ -1,5 +1,7 @@
 describe("cs262 assignment2", function () {
   it("test 1", async function () {
+    user="consult"
+    pass="consuzlt"
     const EC = protractor.ExpectedConditions;
     await browser.get("http://twms.twss.co.th:8080/twms-dashboard/#/dashboard");
     await browser.driver.manage().window().maximize();
@@ -8,11 +10,11 @@ describe("cs262 assignment2", function () {
     //input username
     var username = element(by.id("i_username"));
     await browser.wait(EC.visibilityOf(username), 10000);
-    await username.sendKeys("consult");
+    await username.sendKeys(user);
     //input password
     var password = element(by.id("i_password"));
     await browser.wait(EC.visibilityOf(password), 10000);
-    await password.sendKeys("consult");
+    await password.sendKeys(pass);
     // click login button
     var loginbtn = element(by.tagName("button"));
     await browser.wait(EC.visibilityOf(loginbtn), 10000);
@@ -145,7 +147,7 @@ describe("cs262 assignment2", function () {
     await browser.wait(EC.alertIsPresent(), 5000);
     await browser.switchTo().alert().accept();
     await browser.refresh();
-    //testcase 5
+
     var i_ref_doc_number = element(by.id("i_ref_doc_number"));
     await browser.wait(EC.visibilityOf(i_ref_doc_number), 10000);
     await i_ref_doc_number.sendKeys(refNO);
@@ -156,16 +158,22 @@ describe("cs262 assignment2", function () {
     await searchbtn.click();
     var howmany = element(by.xpath('//*[@id="itemGridOptions"]/div[4]/span'));
     await browser.wait(EC.visibilityOf(howmany), 10000);
+    
+    //testcase 5
     expect(howmany.getText()).toEqual("1 - 1 of 1 items");
-    //testcase 6
     var s_no_bpartner = element(by.id("s_no_bpartner"));
     await browser.wait(EC.visibilityOf(s_no_bpartner), 10000);
     await s_no_bpartner.click();
     await searchbtn.click();
+    //testcase 6
     expect(howmany.getText()).toEqual("No items to display");
     //testcase 7.1 7.2
     expect(element(by.id("shiptosearch")).isEnabled()).toBe(true);
     expect(s_no_bpartner.isEnabled()).toBe(true);
+    await browser.refresh();
+    //input Ref Doc No.
+    //Status slect to INITIAL
+    //clcik search
     //testcase 8
     //9 logout
     var userprofile = element(by.css(".user-profile.dropdown-toggle"));
