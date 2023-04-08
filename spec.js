@@ -171,9 +171,19 @@ describe("cs262 assignment2", function () {
     expect(element(by.id("shiptosearch")).isEnabled()).toBe(true);
     expect(s_no_bpartner.isEnabled()).toBe(true);
     await browser.refresh();
-    //input Ref Doc No.
+     //input Ref Doc No.
+    var kk = element(by.id("i_ref_doc_number"));
+    await browser.wait(EC.visibilityOf(kk), 10000);
+    await kk.sendKeys(refNO);
     //Status slect to INITIAL
+    await browser.wait(EC.visibilityOf('//*[@id="tabstrip-1"]/form/div[2]/div[4]/span/span'), 10000);
+    await browser.click();
+    var mm = element(by.xpath('//*[@id="tabstrip-1"]/form/div[2]/div[4]/span/span/span[1]'));
+    await browser.wait(EC.visibilityOf(mm), 10000);
+    await mm.click();
     //clcik search
+    await browser.wait(EC.visibilityOf(searchbtn), 10000);
+    await searchbtn.click();
     //testcase 8
     //9 logout
     var userprofile = element(by.css(".user-profile.dropdown-toggle"));
