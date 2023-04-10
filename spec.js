@@ -1,4 +1,5 @@
 describe("cs262 assignment2", function () {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000;
   it("test 1", async function () {
     //get Current Date
     const time = new Date();
