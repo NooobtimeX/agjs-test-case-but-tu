@@ -6,13 +6,13 @@ describe("cs262 assignment2", function () {
     const day = time.getDate().toString().padStart(2, "0");
     const month = (time.getMonth() + 1).toString().padStart(2, "0");
     const year = time.getFullYear().toString();
-    
+
     //define
     var user = "consult";
     var pass = "consult";
-    var refNO = "test-createOrder-6409650089-002";
-    var customerid ="10009670";
-    var productcodeid ="1000070";
+    var refNO = "test-createOrder-6409650089-004";
+    var customerid = "10009670";
+    var productcodeid = "1000070";
     var qtys = "3";
     const currentDate = `${day}/${month}/${year}`;
     const EC = protractor.ExpectedConditions;
@@ -32,33 +32,44 @@ describe("cs262 assignment2", function () {
     await username.sendKeys(user);
     await password.sendKeys(pass);
     await browser.sleep(500);
-    await loginbtn.click().then(function () {
-      console.log("Login success");
-    });
+    await loginbtn.click();
     await browser.sleep(500);
 
     //Test Case 1 : Check if login is succeed
-    var realname = element(by.css('[ng-show="hasRealName()"]'));
-    await browser.wait(EC.visibilityOf(realname), 10000);
-    expect(realname.getText()).toEqual("Consult Derive");
+    var realname = element.all(by.css('[ng-show="hasRealName()"]'));
+    await browser.wait(EC.visibilityOf(realname.first()), 10000);
+    expect(realname.first().getText())
+      .toEqual("Consult Derive")
+      .then(function () {
+        console.log("Login success");
+      });
     await browser.sleep(500);
 
     //Basic Flow 1.1 : Click Outbound
     var outbound = element(by.id("sidebar-menu"));
     await browser.wait(EC.visibilityOf(outbound), 10000);
-    await outbound.click();
+    await outbound.click().then(function () {
+      console.log("Click Outbound");
+    });
     await browser.sleep(500);
 
     //Basic Flow 1.2 : Click Sales Orders
     var salesOrder = element.all(by.cssContainingText("a", "Sales Orders"));
     await browser.wait(EC.visibilityOf(salesOrder.first()), 10000);
-    await salesOrder.first().click();
+    await salesOrder
+      .first()
+      .click()
+      .then(function () {
+        console.log("Click Sales Orders");
+      });
     await browser.sleep(500);
 
     //Basic Flow 2 : Click create SO
     var saleorderbtn = element(by.id("i_create_item"));
     await browser.wait(EC.visibilityOf(saleorderbtn), 10000);
-    await saleorderbtn.click();
+    await saleorderbtn.click().then(function () {
+      console.log("Click create SO");
+    });
     await browser.sleep(500);
 
     //Basic Flow 3 : The system displays a new sales order form.
@@ -66,7 +77,7 @@ describe("cs262 assignment2", function () {
       by.xpath('//*[@id="tabstrip-2"]/form/div[1]/div/span/button[3]')
     );
     await browser.wait(EC.visibilityOf(check), 10000).then(function () {
-      console.log("show sale order");
+      console.log("show sale order form");
     });
     await browser.sleep(500);
 
@@ -82,7 +93,9 @@ describe("cs262 assignment2", function () {
     await clientslect.click();
     var clientoptioon = element(by.xpath('//*[@id="i_client_listbox"]/li[2]'));
     await browser.wait(EC.visibilityOf(clientoptioon), 10000);
-    await clientoptioon.click();
+    await clientoptioon.click().then(function () {
+      console.log("Select client");
+    });
     await browser.sleep(500);
 
     //Test Case 2.2 : Client's Customer should enable
@@ -105,6 +118,7 @@ describe("cs262 assignment2", function () {
       ).getAttribute("aria-disabled")
     ).toBe("true");
     await browser.sleep(500);
+    //should have 1 false because of wrong functional req
 
     //Basic Flow 4.b : Input customer data
     var customerinput = element(by.id("i_customer_insert"));
@@ -114,7 +128,9 @@ describe("cs262 assignment2", function () {
       by.xpath('//*[@id="i_customer_insert_listbox"]/li')
     );
     await browser.wait(EC.visibilityOf(customeroption), 10000);
-    await customeroption.click();
+    await customeroption.click().then(function () {
+      console.log("Input customer data");
+    });
     await browser.sleep(500);
 
     //Test Case 3.2 : Client's Ship To Address should enable
@@ -143,35 +159,45 @@ describe("cs262 assignment2", function () {
       by.xpath('//*[@id="i_shipto_address_insert_listbox"]/li[2]/span')
     );
     await browser.wait(EC.visibilityOf(staoption), 10000);
-    await staoption.click();
+    await staoption.click().then(function () {
+      console.log("Select Ship To Address to open SO");
+    });
     await browser.sleep(500);
 
     //Basic Flow 4.d
     //Basic Flow 4.e Input Request Date
     var request_date_insert = element(by.id("i_request_date_insert"));
     await browser.wait(EC.visibilityOf(request_date_insert), 10000);
-    await request_date_insert.sendKeys(currentDate);
+    await request_date_insert.sendKeys(currentDate).then(function () {
+      console.log("Input Request Date");
+    });
     await browser.sleep(500);
 
     //Basic Flow 4.f Input So Date
     var document_date = element(by.id("i_document_date"));
     await browser.wait(EC.visibilityOf(document_date), 10000);
-    await document_date.sendKeys(currentDate);
+    await document_date.sendKeys(currentDate).then(function () {
+      console.log("Input So Date");
+    });
     await browser.sleep(500);
 
     //Basic Flow 4.g h i : Input Ref Doc No
     var ref = element(by.id("i_ref_doc_insert"));
     await browser.wait(EC.visibilityOf(ref), 10000);
-    await ref.sendKeys(refNO);
+    await ref.sendKeys(refNO).then(function () {
+      console.log("Input Ref Doc No");
+    });
     await browser.sleep(500);
 
-    //Basic Flow 5 : Clcick create line item
+    //Basic Flow 5 : Click create line item
     var createLineItemButton = element(by.id("i_create_line_item"));
     await browser.wait(EC.visibilityOf(createLineItemButton), 10000);
-    await createLineItemButton.click();
+    await createLineItemButton.click().then(function () {
+      console.log("Click create line item");
+    });
     await browser.sleep(500);
 
-    //Basic Flow 5.a :Input productcode
+    //Basic Flow 5.a : Input productcode
     var productcode = element(by.name("productcode"));
     await browser.wait(EC.visibilityOf(productcode), 10000);
     await productcode.sendKeys(productcodeid);
@@ -179,7 +205,9 @@ describe("cs262 assignment2", function () {
       by.xpath("/html/body/div[19]/div/div[2]/ul/li/span")
     );
     await browser.wait(EC.visibilityOf(productoption), 10000);
-    await productoption.click();
+    await productoption.click().then(function () {
+      console.log("Input productcode");
+    });
     await browser.sleep(500);
 
     //Basic Flow 5.b : Input Qty
@@ -189,7 +217,9 @@ describe("cs262 assignment2", function () {
       )
     );
     await browser.wait(EC.visibilityOf(qty), 10000);
-    await qty.sendKeys(qtys);
+    await qty.sendKeys(qtys).then(function () {
+      console.log("Input Qty");
+    });
     await browser.sleep(500);
 
     //Basic Flow 5.c : Select SU
@@ -200,25 +230,33 @@ describe("cs262 assignment2", function () {
     await seselect.click();
     var seoption = element(by.xpath("/html/body/div[20]/div/div[2]/ul"));
     await browser.wait(EC.visibilityOf(seoption), 10000);
-    await seoption.click();
+    await seoption.click().then(function () {
+      console.log("Select SU");
+    });
     await browser.sleep(500);
 
     //Basic Flow 6 : Click Update button
     var updatebtn = element(by.cssContainingText("a", "Update"));
     await browser.wait(EC.visibilityOf(updatebtn), 10000);
-    await updatebtn.click();
+    await updatebtn.click().then(function () {
+      console.log("Click Update button");
+    });
     await browser.sleep(500);
 
     //Basic Flow 7 : Click Save&Confirm
     var saveconfirm = element(by.cssContainingText("button", "Save&Confirm"));
     await browser.wait(EC.visibilityOf(saveconfirm), 10000);
-    await saveconfirm.click();
+    await saveconfirm.click().then(function () {
+      console.log("Click Save&Confirm");
+    });
     await browser.sleep(500);
 
     //Basic Flow 8 : Click OK from alert box
     await browser.wait(EC.alertIsPresent(), 5000);
     await browser.switchTo().alert().accept();
-    await browser.refresh();
+    await browser.refresh().then(function () {
+      console.log("Click ok from alert box and refresh");
+    });
     await browser.sleep(500);
 
     //Test Case 5 : The system check SO number auto generate unique number
@@ -240,9 +278,11 @@ describe("cs262 assignment2", function () {
       by.xpath('//*[@id="itemGridOptions"]/div[3]/table/tbody/tr[1]/td[6]')
     );
     await browser.wait(EC.visibilityOf(refs), 10000);
-    expect(refs.getText()).toBe(refNO).then(function () {
-      console.log("test success got sale order correctly");
-    });
+    expect(refs.getText())
+      .toBe(refNO)
+      .then(function () {
+        console.log("test success got sale order correctly");
+      });
     await browser.sleep(500);
 
     //Test Case 7: User can select Sale Order from pair of client m_shipper_id and b_partner
