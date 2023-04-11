@@ -1,20 +1,19 @@
 describe("cs262 assignment2", function () {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000;
-  it("test 1", async function () {
+  it("Create Sales Order", async function () {
     //get Current Date
     const time = new Date();
     const day = time.getDate().toString().padStart(2, "0");
     const month = (time.getMonth() + 1).toString().padStart(2, "0");
     const year = time.getFullYear().toString();
     
-
     //define
     var user = "consult";
     var pass = "consult";
-    var refNO = "122245ed";
+    var refNO = "test-createOrder-6409650089-002";
     var customerid ="10009670";
-    var productcodeid ="1000070"
-    var qtys = "3"
+    var productcodeid ="1000070";
+    var qtys = "3";
     const currentDate = `${day}/${month}/${year}`;
     const EC = protractor.ExpectedConditions;
 
@@ -33,7 +32,9 @@ describe("cs262 assignment2", function () {
     await username.sendKeys(user);
     await password.sendKeys(pass);
     browser.sleep(500);
-    await loginbtn.click();
+    await loginbtn.click().then(function () {
+      console.log("Login success");
+    });
     browser.sleep(500);
 
     //Test Case 1 : Check if login is succeed
@@ -65,7 +66,7 @@ describe("cs262 assignment2", function () {
       by.xpath('//*[@id="tabstrip-2"]/form/div[1]/div/span/button[3]')
     );
     await browser.wait(EC.visibilityOf(check), 10000).then(function () {
-      console.log("show");
+      console.log("show sale order");
     });
     browser.sleep(500);
 
@@ -239,7 +240,9 @@ describe("cs262 assignment2", function () {
       by.xpath('//*[@id="itemGridOptions"]/div[3]/table/tbody/tr[1]/td[6]')
     );
     await browser.wait(EC.visibilityOf(refs), 10000);
-    expect(refs.getText()).toBe(refNO);
+    expect(refs.getText()).toBe(refNO).then(function () {
+      console.log("test success got sale order correctly");
+    });
     browser.sleep(500);
 
     //Test Case 7: User can select Sale Order from pair of client m_shipper_id and b_partner
@@ -263,7 +266,10 @@ describe("cs262 assignment2", function () {
     var dropdownMenu = element(by.css(".dropdown-menu.dropdown-usermenu"));
     var logoutbtn = dropdownMenu.all(by.css("li")).last();
     await browser.wait(EC.visibilityOf(logoutbtn), 10000);
-    await logoutbtn.click();
+    await logoutbtn.click().then(function () {
+      console.log("Logout success");
+      console.log("Test is Pass");
+    });
     browser.sleep(3000);
   });
 });
