@@ -1,32 +1,18 @@
 describe("cs262 assignment2", function () {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 400000;
-  it("Create Sales Order", async function () {
-    //get Current Date
-    const time = new Date();
-    const day = time.getDate().toString().padStart(2, "0");
-    const month = (time.getMonth() + 1).toString().padStart(2, "0");
-    const year = time.getFullYear().toString();
-
-    //define
-    var user = "consult";
-    var pass = "consult";
-    var refNO = "test-createOrder-6409650089-019";
-    var customerid = "10009670";
-    var productcodeid = "1000070";
-    var qtys = "3";
-    const currentDate = `${day}/${month}/${year}`;
-    const EC = protractor.ExpectedConditions;
-
+  const EC = protractor.ExpectedConditions;
+  beforeEach(async () => {
+    //do before each test case
     //get website
     await browser.get("http://twms.twss.co.th:8080/twms-dashboard/#/dashboard");
     await browser.driver.manage().window().maximize();
     await browser.waitForAngular();
 
     //login
+    var user = "consult";
+    var pass = "consult";
     var username = element(by.id("i_username"));
     var password = element(by.id("i_password"));
     var loginbtn = element(by.tagName("button"));
-    
     await browser.wait(EC.visibilityOf(username), 10000);
     await browser.wait(EC.visibilityOf(password), 10000);
     await browser.wait(EC.visibilityOf(loginbtn), 10000);
@@ -35,6 +21,21 @@ describe("cs262 assignment2", function () {
     await browser.sleep(0);
     await loginbtn.click();
     await browser.sleep(0);
+  });
+
+  it("Create Sales Order", async () => {
+    //get Current Date
+    const time = new Date();
+    const day = time.getDate().toString().padStart(2, "0");
+    const month = (time.getMonth() + 1).toString().padStart(2, "0");
+    const year = time.getFullYear().toString();
+
+    //define
+    var refNO = "test-createOrder-6409650089-020";
+    var customerid = "10009670";
+    var productcodeid = "1000070";
+    var qtys = "3";
+    const currentDate = `${day}/${month}/${year}`;
 
     //Test Case 1 : Check if login is succeed
     var realname = element.all(by.css('[ng-show="hasRealName()"]'));
@@ -256,8 +257,10 @@ describe("cs262 assignment2", function () {
 
     //Test Case 5 : The system check SO number auto generate unique number
     var i_ref_doc_number = element(by.id("i_ref_doc_number"));
-    var searchbtn = element(by.cssContainingText("button", "Search"));
-    var howmany = element(by.css(".k-pager-info.k-label"));
+    var searchbtn = element
+      .all(by.cssContainingText("button", "Search"))
+      .first();
+    var howmany = element.all(by.css(".k-pager-info.k-label")).first();
     await browser.wait(EC.visibilityOf(i_ref_doc_number), 10000);
     await i_ref_doc_number.sendKeys(refNO);
     await browser.wait(EC.visibilityOf(searchbtn), 10000);
@@ -291,7 +294,9 @@ describe("cs262 assignment2", function () {
     await searchbtn.click();
     expect(howmany.getText()).toEqual("No items to display");
     await browser.sleep(0);
+  });
 
+  afterEach(async () => {
     //Basic Flow 9 : logout
     var userprofile = element(by.css(".user-profile.dropdown-toggle"));
     var dropdownMenu = element(by.css(".dropdown-menu.dropdown-usermenu"));
@@ -299,10 +304,9 @@ describe("cs262 assignment2", function () {
     await browser.wait(EC.visibilityOf(userprofile), 10000);
     await userprofile.click();
     await browser.wait(EC.visibilityOf(logoutbtn), 10000);
-    await logoutbtn.click().then(function() {
+    await logoutbtn.click().then(function () {
       console.log("Logout success");
-      console.log("Test is Pass");
-    });    
+    });
     await browser.sleep(3000);
   });
 });
