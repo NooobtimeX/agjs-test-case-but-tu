@@ -48,7 +48,7 @@ describe("cs262 assignment2", function () {
     await browser.sleep(0);
 
     //Basic Flow 1.1 : Click Outbound
-    var outbound = element(by.id("sidebar-menu"));
+    var outbound = element(by.cssContainingText("a", "Outbound"));
     await browser.wait(EC.visibilityOf(outbound), 10000);
     await outbound.click().then(function () {
       console.log("Click Outbound");
