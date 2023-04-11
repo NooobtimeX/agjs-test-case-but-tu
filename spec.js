@@ -6,12 +6,16 @@ describe("cs262 assignment2", function () {
     const day = time.getDate().toString().padStart(2, "0");
     const month = (time.getMonth() + 1).toString().padStart(2, "0");
     const year = time.getFullYear().toString();
-    const currentDate = `${day}/${month}/${year}`;
+    
 
     //define
     var user = "consult";
     var pass = "consult";
     var refNO = "122245ed";
+    var customerid ="10009670";
+    var productcodeid ="1000070"
+    var qtys = "3"
+    const currentDate = `${day}/${month}/${year}`;
     const EC = protractor.ExpectedConditions;
 
     //get website
@@ -104,7 +108,7 @@ describe("cs262 assignment2", function () {
     //Basic Flow 4.b : Input customer data
     var customerinput = element(by.id("i_customer_insert"));
     await browser.wait(EC.visibilityOf(customerinput), 10000);
-    await customerinput.sendKeys("10009670");
+    await customerinput.sendKeys(customerid);
     var customeroption = element(
       by.xpath('//*[@id="i_customer_insert_listbox"]/li')
     );
@@ -169,7 +173,7 @@ describe("cs262 assignment2", function () {
     //Basic Flow 5.a :Input productcode
     var productcode = element(by.name("productcode"));
     await browser.wait(EC.visibilityOf(productcode), 10000);
-    await productcode.sendKeys("1000070");
+    await productcode.sendKeys(productcodeid);
     var productoption = element(
       by.xpath("/html/body/div[19]/div/div[2]/ul/li/span")
     );
@@ -184,7 +188,7 @@ describe("cs262 assignment2", function () {
       )
     );
     await browser.wait(EC.visibilityOf(qty), 10000);
-    await qty.sendKeys(5);
+    await qty.sendKeys(qtys);
     browser.sleep(500);
 
     //Basic Flow 5.c : Select SU
@@ -261,6 +265,5 @@ describe("cs262 assignment2", function () {
     await browser.wait(EC.visibilityOf(logoutbtn), 10000);
     await logoutbtn.click();
     browser.sleep(3000);
-    
   });
 });
